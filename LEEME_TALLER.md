@@ -11,7 +11,7 @@ Carpeta de trabajo para los participantes. Todos los nombres de `lista_estudiant
 | `generar_mi_practica.py` + `template_mi_practica.tex` | **Plantilla** para construir su propio generador (ejemplo: porcentajes) |
 | `pruebas.py` | Pruebas automáticas de los cálculos |
 | `lista_estudiantes_ficticia.xlsx` | Lista de prueba (19 nombres inventados; encabezado «Nombre» en la fila 3) |
-| `ejemplos/` | Los cuatro PDF de la corrida con semilla 2026, para comparar |
+| `ejemplos/` | Los cuatro PDF de la ejecución con semilla 2026, para comparar |
 
 ## Antes del taller
 
@@ -52,7 +52,7 @@ Consejos:
 | La solución coincide con el enunciado en al menos tres estudiantes revisados. | | | |
 | La moda, la mediana y el redondeo siguen la convención declarada. | | | |
 | Las probabilidades aparecen como fracción simplificada y decimal. | | | |
-| La corrida registra la semilla y `python pruebas.py` termina sin fallos. | | | |
+| La ejecución registra la semilla y `python pruebas.py` termina sin fallos. | | | |
 
 ## Uso con un curso real
 

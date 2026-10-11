@@ -67,7 +67,7 @@ Escanee el código con la cámara del celular para abrir el repositorio, descarg
 \cod{generar\_mi\_practica.py} + \cod{template\_mi\_practica.tex} & Plantilla para construir su propio generador (ejemplo: porcentajes). \\
 \cod{pruebas.py} & Pruebas automáticas de los cálculos. \\
 \cod{lista\_estudiantes\_ficticia.xlsx} & Lista de prueba con 19 nombres inventados. \\
-\cod{ejemplos/} & Los cuatro PDF de una corrida con semilla 2026, para comparar. \\
+\cod{ejemplos/} & Los cuatro PDF de una ejecución con semilla 2026, para comparar. \\
 \cod{LEEME\_TALLER.md} & Resumen breve de esta guía. \\ \bottomrule
 \end{tabularx}
 
@@ -98,7 +98,7 @@ python pruebas.py
 Debe terminar con \cod{OK}. Si aparece un error, revise la sección~\ref{sec:problemas}.
 \end{enumerate}
 
-\section{Primera corrida}
+\section{Primera ejecución}
 
 \begin{enumerate}[leftmargin=*]
 \item Abra una terminal en la carpeta del material y ejecute \cod{python generar\_estadistica.py}.
@@ -116,7 +116,7 @@ Debe terminar con \cod{OK}. Si aparece un error, revise la sección~\ref{sec:pro
 \begin{minipage}{0.48\linewidth}\centering
 \fbox{\includegraphics[width=0.95\linewidth]{ej_solucion.png}}\\[0.2em]{\small (b) Su solución, con los mismos datos}
 \end{minipage}
-\caption{Primera página de las prácticas y de las soluciones (corrida con semilla 2026).}
+\caption{Primera página de las prácticas y de las soluciones (ejecución con semilla 2026).}
 \end{figure}
 
 \begin{figure}[h]
@@ -126,7 +126,7 @@ Debe terminar con \cod{OK}. Si aparece un error, revise la sección~\ref{sec:pro
 \end{figure}
 
 \begin{nota}
-\textbf{La semilla.} Cada corrida usa una semilla aleatoria que queda impresa al pie de las soluciones y en la hoja de respuestas. Con la misma lista, la misma plantilla y la misma semilla se obtienen exactamente los mismos números; así se puede reconstruir la práctica de cualquier estudiante.
+\textbf{La semilla.} Cada ejecución usa una semilla aleatoria que queda impresa al pie de las soluciones y en la hoja de respuestas. Con la misma lista, la misma plantilla y la misma semilla se obtienen exactamente los mismos números; así se puede reconstruir la práctica de cualquier estudiante.
 \end{nota}
 
 \section{Cómo funciona el código}
@@ -192,7 +192,7 @@ CLAVE = [("Encuestados", lambda d: str(d["total"])),
 Ejecute \cod{python generar\_mi\_practica.py}; los PDF aparecen en \cod{practicas\_mi\_practica/}.
 
 \begin{nota}
-\textbf{Consejos.} Cambie una sola cosa a la vez y vuelva a ejecutar. Revise al menos tres estudiantes comparando la práctica con la solución. Conserve la semilla de la corrida que entregue.
+\textbf{Consejos.} Cambie una sola cosa a la vez y vuelva a ejecutar. Revise al menos tres estudiantes comparando la práctica con la solución. Conserve la semilla de la ejecución que entregue.
 \end{nota}
 
 \section{Problemas frecuentes}\label{sec:problemas}
@@ -233,7 +233,7 @@ La consigna nombra la medida o la probabilidad que se pide. & $\square$ & $\squa
 La solución coincide con el enunciado en al menos tres estudiantes revisados. & $\square$ & $\square$ & \\
 La moda, la mediana y el redondeo siguen la convención declarada. & $\square$ & $\square$ & \\
 Las probabilidades aparecen como fracción simplificada y decimal. & $\square$ & $\square$ & \\
-La corrida registra la semilla y \cod{python pruebas.py} termina sin fallos. & $\square$ & $\square$ & \\ \bottomrule
+La ejecución registra la semilla y \cod{python pruebas.py} termina sin fallos. & $\square$ & $\square$ & \\ \bottomrule
 \end{tabularx}
 
 \section{Privacidad y uso responsable}

@@ -149,7 +149,7 @@ def procesar(excel_file, log, semilla=None, datos_fn=datos_estudiante,
              clave=CLAVE, titulo_clave="Estadística descriptiva"):
     if semilla is None:
         semilla = random.randrange(1_000_000)
-    random.seed(semilla)  # la semilla queda impresa en las soluciones para reproducir la corrida
+    random.seed(semilla)  # la semilla queda impresa en las soluciones para reproducir la ejecución
     log(f"Archivo: {os.path.basename(excel_file)} (semilla {semilla})")
     df = leer_excel(excel_file)
     if "Nombre" not in df.columns:

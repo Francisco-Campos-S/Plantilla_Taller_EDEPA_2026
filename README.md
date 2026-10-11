@@ -29,7 +29,7 @@ python generar_probabilidad.py
 | `generar_mi_practica.py` + `template_mi_practica.tex` | Plantilla para construir su propio generador (ejemplo: porcentajes) |
 | `pruebas.py` | Pruebas automáticas de los cálculos |
 | `lista_estudiantes_ficticia.xlsx` | Lista de prueba: 19 nombres **inventados** |
-| `ejemplos/` | Los cuatro PDF de una corrida con semilla 2026 |
+| `ejemplos/` | Los cuatro PDF de una ejecución con semilla 2026 |
 | `guia/` | Guía del taller en PDF y su fuente LaTeX |
 | `LEEME_TALLER.md` | Resumen de la guía y lista de cotejo |
 
