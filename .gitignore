@@ -1,0 +1,11 @@
+__pycache__/
+*.pyc
+practicas_estadistica/
+practicas_probabilidad/
+practicas_mi_practica/
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+~$*

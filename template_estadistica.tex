@@ -1,0 +1,213 @@
+%% Template Jinja2+LaTeX. Variables: estudiante, contexto/muestra/sol{1,2,3}_*, modo, primero, ultimo.
+%% El bloque "primero" emite el preámbulo una sola vez; "ultimo" cierra \end{document}.
+{% if primero -%}
+\documentclass[10pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}    %% \dfrac, \bar, ecuaciones
+\usepackage{longtable, array, pdflscape}  %% hoja de respuestas al inicio de las soluciones
+\usepackage{fancyhdr}   %% header/footer personalizados
+\usepackage{siunitx}
+\usepackage{lastpage}   %% \pageref{LastPage} para "X de N"
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{pgfplots}   %% gráfico de barras pregunta 3
+\usepackage{enumitem}   %% enumerate compacto en soluciones
+
+\pgfplotsset{compat=1.18}
+\geometry{top=1.5cm, bottom=1.5cm, left=1.2cm, right=1.2cm}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small ESTAD\'ISTICA}                       %% \'I = Í (acento sobre la I)
+\rhead{\small \today}
+\renewcommand{\headrulewidth}{0.5pt}
+\rfoot{\thepage\ de \pageref{LastPage}}            %% requiere 2 pasadas de pdflatex
+{% if modo == 'soluciones' %}\lfoot{\scriptsize Semilla: {{ semilla }}}{% endif %}  %% permite repetir la corrida
+\setlength{\headheight}{15pt}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+{{ clave_tex }}          %% vacío en las prácticas; en las soluciones, la hoja de respuestas
+{%- endif %}
+
+\label{inicio_{{ estudiante_id }}}                 %% etiqueta única por estudiante
+\begin{center}
+    {\Large \textbf{Práctica de Estadística Descriptiva}}\\[0.3em]
+    {\normalsize Estudiante: \textbf{\underline{ {{ estudiante }} }} }
+\end{center}
+
+\vspace{0.15cm}
+
+\noindent\textbf{Indicador:} Caracterizar un grupo de datos mediante medidas estadísticas de resumen: moda, media aritmética, mediana, máximo, mínimo y recorrido; además de interpretar su representación gráfica.
+
+\vspace{0.1cm}
+
+%% Caja gris con la indicación general (mismo patrón se reutiliza para las muestras).
+\noindent\fcolorbox{black}{gray!10}{\parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{
+\small\centering
+\textit{Recuerde mostrar todos sus procedimientos. Puede usar calculadora para operaciones aritméticas básicas.}
+}}
+
+\vspace{0.1cm}
+\hrule
+\vspace{0.15cm}
+
+{% if modo == 'practicas' %}                       %% ---------- ENUNCIADOS ----------
+
+%% PREGUNTA 1: estadísticos básicos sobre muestra ordenada uniforme.
+\textbf{1. } Se registraron los siguientes datos sobre {{ contexto1 }}:
+
+\noindent\fcolorbox{black}{gray!10}{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{
+\small\centering
+{{ muestra1 }}
+}}
+
+Determine las medidas de resumen. Primero ordene los datos y luego calcule:
+\begin{enumerate}
+\item[\small a)] La moda (dato que más se repite, si existe)
+\item[\small b)] El mínimo y el máximo
+\item[\small c)] La media aritmética aplicando la fórmula:
+$$\bar{x} = \frac{\text{Suma de todos los datos}}{\text{Cantidad de datos}}$$
+\item[\small d)] El recorrido: $R = M\acute{a}x - M\acute{\imath}n$
+\item[\small e)] La mediana (dato central de los datos ordenados; con una cantidad par, promedio de los dos centrales)
+\end{enumerate}
+
+\vspace{0.25cm}
+
+%% PREGUNTA 2: la muestra trae valores repetidos para forzar moda real.
+\textbf{2. } Analice el siguiente conjunto de datos de {{ contexto2 }}:
+
+\noindent\fcolorbox{black}{gray!10}{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{
+\small\centering
+{{ muestra2 }}
+}}
+
+\begin{enumerate}
+\item[\small a)] Organice los datos de menor a mayor
+\item[\small b)] Determine la moda (el valor con mayor frecuencia)
+\item[\small c)] Calcule la media aritmética mostrando la suma y la división
+\item[\small d)] Calcule el recorrido e interprete qué significa este valor
+\item[\small e)] Determine la mediana a partir de los datos ordenados
+\end{enumerate}
+
+\vspace{0.25cm}
+
+%% PREGUNTA 3: gráfico de barras + línea de la media (TikZ/pgfplots).
+\textbf{3. } Análisis gráfico de los datos de {{ contexto3 }}:
+
+\noindent\fcolorbox{black}{gray!10}{\parbox{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}{
+\small\centering
+{{ muestra3 }}
+}}
+
+\vspace{0.15cm}
+
+\noindent\textbf{Gráfico de Barras:}
+
+\vspace{0.1cm}
+
+\begin{tikzpicture}[scale=0.9]
+\begin{axis}[
+    title style={font=\Large\bfseries},
+    title={Representación de Datos},
+    xlabel={Posición}, ylabel={Valor},
+    ymin=0, ymax={{ (sol3_maximo * 1.15)|int }},  %% 15% de aire arriba
+    xtick={1,...,{{ sol3_datos_ordenados|length }}},
+    axis lines=left, width=10cm, height=6cm,
+    legend style={draw=none, fill=none}, legend entries={},
+]
+\addplot[ybar, bar shift=0pt, fill=blue!70, draw=black, line width=0.75pt] coordinates {
+{% for val in sol3_datos_ordenados -%}({{ loop.index }}, {{ val }}){% endfor -%}};
+\addplot[red, dashed, thick, mark=none] coordinates {  %% línea horizontal en la media
+(0.5, {{ "%.2f"|format(sol3_media) }}) ({{ sol3_datos_ordenados|length + 0.5 }}, {{ "%.2f"|format(sol3_media) }})};
+\end{axis}
+\end{tikzpicture}
+
+\vspace{0.15cm}
+
+\begin{enumerate}
+\item[\small a)] Identifique el mínimo y el máximo en el gráfico
+\item[\small b)] Localice dónde está la media
+\item[\small c)] Calcule la mediana y compárela con la media. ¿Qué indica la diferencia entre ambas?
+\item[\small d)] Escriba una breve interpretación: ¿qué le dice este gráfico sobre los datos de {{ contexto3 }}?
+\end{enumerate}
+
+\vspace{0.25cm}
+
+{% else %}                                         %% ---------- SOLUCIONES (compactas) ----------
+
+%% Reduce el espaciado de fórmulas para que las 3 soluciones quepan en una página.
+\begingroup
+\setlength{\abovedisplayskip}{6pt}
+\setlength{\belowdisplayskip}{6pt}
+\setlength{\abovedisplayshortskip}{6pt}
+\setlength{\belowdisplayshortskip}{6pt}
+
+\vspace{0.3cm}
+
+\textbf{1. {{ contexto1 }}} \par
+\textit{Datos:} {{ muestra1 }}
+\begin{enumerate}[leftmargin=1.4em, itemsep=3pt, topsep=4pt, parsep=0pt]
+\item[a)] \textbf{Moda:} {{ sol1_moda_texto }}
+\item[b)] \textbf{Mínimo:} {{ sol1_minimo }} \quad \textbf{Máximo:} {{ sol1_maximo }}
+\item[c)] \textbf{Media:} $\bar{x} = \dfrac{ {{ sol1_datos_ordenados|join('+') }} }{ {{sol1_n}} } = \dfrac{ {{sol1_suma}} }{ {{sol1_n}} } = {{ "%.2f"|format(sol1_media) }}$
+\item[d)] \textbf{Recorrido:} $R = {{ sol1_maximo }} - {{ sol1_minimo }} = {{ sol1_recorrido }}$
+\item[e)] \textbf{Mediana:} $Me = {{ sol1_mediana_tex }}$
+\end{enumerate}
+
+\vspace{0.3cm}
+
+\textbf{2. {{ contexto2 }}} \par
+\textit{Datos:} {{ muestra2 }}
+\begin{enumerate}[leftmargin=1.4em, itemsep=3pt, topsep=4pt, parsep=0pt]
+\item[a)] \textbf{Datos ordenados:} {{ sol2_datos_ordenados|join(', ') }}
+\item[b)] \textbf{Moda:} {{ sol2_moda_texto }}
+\item[c)] \textbf{Media:} $\bar{x} = \dfrac{ {{ sol2_datos_ordenados|join('+') }} }{ {{sol2_n}} } = \dfrac{ {{sol2_suma}} }{ {{sol2_n}} } = {{ "%.2f"|format(sol2_media) }}$
+\item[d)] \textbf{Recorrido:} $R = {{ sol2_maximo }} - {{ sol2_minimo }} = {{ sol2_recorrido }}$ (rango entre el dato menor y el mayor)
+\item[e)] \textbf{Mediana:} $Me = {{ sol2_mediana_tex }}$
+\end{enumerate}
+
+\vspace{0.3cm}
+
+\textbf{3. {{ contexto3 }} -- Análisis gráfico} \par
+\textit{Datos:} {{ muestra3 }}
+
+%% Mismo gráfico que la pregunta 3 del enunciado, pero más pequeño para dejar espacio a los incisos.
+\begin{center}
+\begin{tikzpicture}[scale=0.85]
+\begin{axis}[
+    title style={font=\normalsize\bfseries},
+    title={Representación de Datos},
+    xlabel={Posición}, ylabel={Valor},
+    label style={font=\small}, tick label style={font=\small},
+    ymin=0, ymax={{ (sol3_maximo * 1.15)|int }},
+    xtick={1,...,{{ sol3_datos_ordenados|length }}},
+    axis lines=left, width=11cm, height=5cm,
+    legend style={draw=none, fill=none}, legend entries={},
+]
+\addplot[ybar, bar shift=0pt, fill=blue!70, draw=black, line width=0.7pt] coordinates {
+{% for val in sol3_datos_ordenados -%}({{ loop.index }}, {{ val }}){% endfor -%}};
+\addplot[red, dashed, thick, mark=none] coordinates {
+(0.5, {{ "%.2f"|format(sol3_media) }}) ({{ sol3_datos_ordenados|length + 0.5 }}, {{ "%.2f"|format(sol3_media) }})};
+\end{axis}
+\end{tikzpicture}
+\end{center}
+
+\begin{enumerate}[leftmargin=1.4em, itemsep=3pt, topsep=2pt, parsep=0pt]
+\item[a)] \textbf{Mínimo:} {{ sol3_minimo }} \quad \textbf{Máximo:} {{ sol3_maximo }} (extremos en el gráfico)
+\item[b)] \textbf{Media:} {{ "%.2f"|format(sol3_media)|replace('.', ',') }} (línea roja punteada)
+\item[c)] \textbf{Mediana:} $Me = {{ sol3_mediana_tex }}$
+\item[d)] \textit{Interpretación:} {{ sol3_interpretacion }}
+\end{enumerate}
+
+\endgroup
+
+{% endif %}
+
+\label{fin_{{ estudiante_id }}}
+{% if not ultimo %}\newpage{% endif %}             %% salto entre estudiantes, no después del último
+{% if ultimo %}
+\end{document}
+{% endif %}

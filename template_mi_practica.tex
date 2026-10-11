@@ -1,0 +1,58 @@
+%% Plantilla mínima Jinja2+LaTeX para un generador propio.
+%% Variables: las que devuelve datos_estudiante() en generar_mi_practica.py, más modo, primero, ultimo y semilla.
+%% El bloque "primero" emite el preámbulo una sola vez; "ultimo" cierra \end{document}.
+{% if primero -%}
+\documentclass[11pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}  %% comillas « » y acentos correctos
+\usepackage{amsmath}
+\usepackage{longtable, array, pdflscape}  %% hoja de respuestas al inicio de las soluciones
+\usepackage{geometry}
+\usepackage{fancyhdr}
+\geometry{margin=2cm}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small MI PR\'ACTICA}                       %% EDITAR: encabezado
+\rhead{\small \today}
+{% if modo == 'soluciones' %}\lfoot{\scriptsize Semilla: {{ semilla }}}{% endif %}  %% permite repetir la corrida
+\setlength{\headheight}{15pt}
+\setlength{\parindent}{0pt}
+\begin{document}
+{{ clave_tex }}          %% vacío en las prácticas; en las soluciones, la hoja de respuestas
+{%- endif %}
+
+\begin{center}
+    {\Large \textbf{Práctica de porcentajes}}\\[0.3em]   %% EDITAR: título
+    {\normalsize Estudiante: \textbf{\underline{ {{ estudiante }} }} }
+\end{center}
+
+\noindent\textbf{Indicador:} Calcular e interpretar porcentajes a partir de frecuencias.   %% EDITAR: indicador
+
+\vspace{0.3cm}
+
+{% if modo == 'practicas' %}                       %% ---------- ENUNCIADO ----------
+
+%% EDITAR: redacte la pregunta con las variables de datos_estudiante()
+\textbf{1. } En una encuesta a {{ total }} {{ poblacion }}, {{ k }} {{ rasgo }}.
+\begin{enumerate}
+\item[a)] ¿Qué porcentaje de los encuestados {{ rasgo }}?
+\item[b)] ¿Qué porcentaje no cumple esa condición?
+\item[c)] Redacte una frase que comunique el resultado a la comunidad.
+\end{enumerate}
+
+{% else %}                                         %% ---------- SOLUCIÓN ----------
+
+\textbf{1. Solución}
+\begin{enumerate}
+\item[a)] $\dfrac{ {{ k }} }{ {{ total }} } \cdot 100 {{ signo }} {{ porcentaje_tex }}\,\%$
+\item[b)] $100 - {{ porcentaje_tex }} {{ signo }} {{ complemento_tex }}\,\%$
+\item[c)] Respuesta abierta. Por ejemplo: «El {{ porcentaje }}\,\% de los {{ poblacion }} encuestados {{ rasgo }}».
+\end{enumerate}
+
+{% endif %}
+
+{% if not ultimo %}\newpage{% endif %}             %% salto entre estudiantes, no después del último
+{% if ultimo %}
+\end{document}
+{% endif %}

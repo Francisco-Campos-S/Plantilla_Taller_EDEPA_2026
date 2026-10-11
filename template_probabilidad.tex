@@ -1,0 +1,164 @@
+%% Template Jinja2+LaTeX para probabilidad. Variables: estudiante, p1_*, p2_*, p3_*, modo, primero, ultimo, semilla.
+%% El bloque "primero" emite el preámbulo una sola vez; "ultimo" cierra \end{document}.
+{% if primero -%}
+\documentclass[10pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}    %% \dfrac, ecuaciones
+\usepackage{longtable, array, pdflscape}  %% hoja de respuestas al inicio de las soluciones
+\usepackage{fancyhdr}   %% header/footer personalizados
+\usepackage{lastpage}   %% \pageref{LastPage} para "X de N"
+\usepackage{geometry}
+\usepackage{xcolor}
+\usepackage{enumitem}   %% enumerate compacto en soluciones
+
+\geometry{top=1.5cm, bottom=1.5cm, left=1.2cm, right=1.2cm}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small PROBABILIDAD}
+\rhead{\small \today}
+\renewcommand{\headrulewidth}{0.5pt}
+\rfoot{\thepage\ de \pageref{LastPage}}            %% requiere 2 pasadas de pdflatex
+{% if modo == 'soluciones' %}\lfoot{\scriptsize Semilla: {{ semilla }}}{% endif %}  %% permite repetir la corrida
+\setlength{\headheight}{15pt}
+\setlength{\parindent}{0pt}
+
+\begin{document}
+{{ clave_tex }}          %% vacío en las prácticas; en las soluciones, la hoja de respuestas
+{%- endif %}
+
+\label{inicio_{{ estudiante_id }}}                 %% etiqueta única por estudiante
+\begin{center}
+    {\Large \textbf{Práctica de Probabilidad}}\\[0.3em]
+    {\normalsize Estudiante: \textbf{\underline{ {{ estudiante }} }} }
+\end{center}
+
+\vspace{0.15cm}
+
+\noindent\textbf{Indicador:} Calcular probabilidades de eventos simples, compuestos y condicionales a partir del espacio muestral, del complemento y de una tabla de contingencia, y compararlas con la frecuencia relativa observada.
+
+\vspace{0.1cm}
+
+\noindent\fcolorbox{black}{gray!10}{\parbox{\dimexpr\textwidth-2\fboxsep-2\fboxrule\relax}{
+\small\centering
+\textit{Exprese cada probabilidad como fracción simplificada y como decimal con dos cifras. Muestre sus procedimientos.}
+}}
+
+\vspace{0.1cm}
+\hrule
+\vspace{0.15cm}
+
+{% if modo == 'practicas' %}                       %% ---------- ENUNCIADOS ----------
+
+%% PREGUNTA 1: probabilidad clásica (Laplace), complemento y extracción sin reposición.
+\textbf{1. } En una bolsa hay {{ p1_r }} {{ p1_objeto }} {{ p1_c[0] }}, {{ p1_a }} {{ p1_c[1] }} y {{ p1_v }} {{ p1_c[2] }}, todas del mismo tamaño. Se extrae una al azar.
+\begin{enumerate}
+\item[\small a)] Calcule la probabilidad de obtener una {{ p1_objeto_s }} {{ p1_cs[0] }}.
+\item[\small b)] Calcule la probabilidad de que la {{ p1_objeto_s }} \textbf{no} sea {{ p1_cs[1] }}, usando el complemento.
+\item[\small c)] Si se extraen dos {{ p1_objeto }} sin reposición, calcule la probabilidad de que ambas sean {{ p1_c[0] }}.
+\end{enumerate}
+
+\vspace{0.3cm}
+
+%% PREGUNTA 2: espacio muestral de dos dados.
+\textbf{2. } Se lanzan dos dados equilibrados, uno rojo y uno azul, y se suman los puntos obtenidos.
+\begin{enumerate}
+\item[\small a)] ¿Cuántos resultados tiene el espacio muestral? Escriba algunos de ellos como pares ordenados.
+\item[\small b)] Calcule la probabilidad de que la suma sea {{ p2_s }}.
+\item[\small c)] Calcule la probabilidad de que la suma sea mayor que {{ p2_t }}.
+\end{enumerate}
+
+\vspace{0.3cm}
+
+%% PREGUNTA 3: tabla de contingencia, probabilidad conjunta y condicional.
+\textbf{3. } Se preguntó a un grupo de estudiantes si {{ p3_evento }}. Los resultados fueron:
+
+\begin{center}
+\begin{tabular}{lccc}
+\hline
+ & Sí & No & Total \\ \hline
+Estudiantes {{ p3_g1_de }} & {{ p3_a1 }} & {{ p3_a2 }} & {{ p3_ta }} \\
+Estudiantes {{ p3_g2_de }} & {{ p3_b1 }} & {{ p3_b2 }} & {{ p3_tb }} \\ \hline
+Total & {{ p3_tsi }} & {{ p3_tno }} & {{ p3_total }} \\ \hline
+\end{tabular}
+\end{center}
+
+Se elige un estudiante al azar.
+\begin{enumerate}
+\item[\small a)] ¿Cuál es la probabilidad de que responda que sí?
+\item[\small b)] ¿Cuál es la probabilidad de que sea {{ p3_g1_de }} y responda que sí?
+\item[\small c)] Si se sabe que es {{ p3_g1_de }}, ¿cuál es la probabilidad de que responda que sí?
+\item[\small d)] Compare los resultados de a) y c). ¿Depende la respuesta del grupo?
+\end{enumerate}
+
+\vspace{0.3cm}
+
+%% PREGUNTA 4: enfoque frecuencial con lanzamientos simulados.
+\textbf{4. } Un dado equilibrado se lanzó {{ p4_N }} veces. Las frecuencias obtenidas fueron:
+
+\begin{center}
+\begin{tabular}{lcccccc}
+\hline
+Cara & 1 & 2 & 3 & 4 & 5 & 6 \\ \hline
+Frecuencia {% for f in p4_frec %}& {{ f }} {% endfor %}\\ \hline
+\end{tabular}
+\end{center}
+
+\begin{enumerate}
+\item[\small a)] Calcule la frecuencia relativa de la cara {{ p4_cara }}.
+\item[\small b)] ¿Cuál es la probabilidad teórica de obtener {{ p4_cara }}?
+\item[\small c)] Compare a) y b). ¿Coinciden? ¿Por qué, en general, no tienen que coincidir?
+\item[\small d)] Si el dado se lanzara 6000 veces, ¿qué esperaría para la frecuencia relativa de la cara {{ p4_cara }}?
+\end{enumerate}
+
+{% else %}                                         %% ---------- SOLUCIONES (compactas) ----------
+
+\vspace{0.3cm}
+
+\textbf{1. Probabilidad clásica} \par
+\textit{Bolsa:} {{ p1_r }} {{ p1_c[0] }}, {{ p1_a }} {{ p1_c[1] }} y {{ p1_v }} {{ p1_c[2] }}; total $n = {{ p1_n }}$ {{ p1_objeto }}.
+\begin{enumerate}[leftmargin=1.4em, itemsep=6pt, topsep=4pt, parsep=0pt]
+\item[a)] $P(\text{{ '{' }}{{ p1_cs[0] }}{{ '}' }}) = {{ p1_sol_a }}$
+\item[b)] $P(\text{no {{ p1_cs[1] }}{{ '}' }}) = {{ p1_sol_b }}$
+\item[c)] $P(\text{dos {{ p1_c[0] }}{{ '}' }}) = {{ p1_sol_c }}$ \quad (la segunda extracción tiene una {{ p1_objeto_s }} menos)
+\end{enumerate}
+
+\vspace{0.3cm}
+
+\textbf{2. Suma de dos dados} \par
+\begin{enumerate}[leftmargin=1.4em, itemsep=6pt, topsep=4pt, parsep=0pt]
+\item[a)] El espacio muestral tiene $6 \cdot 6 = 36$ pares ordenados igualmente probables, de $(1,1)$ a $(6,6)$.
+\item[b)] Pares con suma {{ p2_s }}: {{ p2_pares }} ({{ p2_fav_s }} casos). \quad $P(\text{suma} = {{ p2_s }}) = {{ p2_sol_b }}$
+\item[c)] Hay {{ p2_fav_t }} pares con suma mayor que {{ p2_t }}. \quad $P(\text{suma} > {{ p2_t }}) = {{ p2_sol_c }}$
+\end{enumerate}
+
+\vspace{0.3cm}
+
+\textbf{3. Tabla de contingencia} \par
+\textit{Total de estudiantes:} {{ p3_total }}; responden que sí: {{ p3_tsi }}; {{ p3_g1_de }}: {{ p3_ta }}.
+\begin{enumerate}[leftmargin=1.4em, itemsep=6pt, topsep=4pt, parsep=0pt]
+\item[a)] $P(\text{sí}) = {{ p3_sol_a }}$
+\item[b)] $P(\text{{ '{' }}{{ p3_g1 }} y sí{{ '}' }}) = {{ p3_sol_b }}$
+\item[c)] $P(\text{sí} \mid \text{{ '{' }}{{ p3_g1 }}{{ '}' }}) = \dfrac{P(\text{{ '{' }}{{ p3_g1 }} y sí{{ '}' }})}{P(\text{{ '{' }}{{ p3_g1 }}{{ '}' }})} = {{ p3_sol_c }}$
+\item[d)] {{ p3_sol_d }}
+\end{enumerate}
+
+\vspace{0.3cm}
+
+\textbf{4. Frecuencia relativa} \par
+\textit{Lanzamientos:} {{ p4_N }}; la cara {{ p4_cara }} salió {{ p4_f }} veces.
+\begin{enumerate}[leftmargin=1.4em, itemsep=6pt, topsep=4pt, parsep=0pt]
+\item[a)] $f_r({{ p4_cara }}) = {{ p4_sol_a }}$
+\item[b)] $P({{ p4_cara }}) = \dfrac{1}{6} \approx 0.17$ (seis caras igualmente probables)
+\item[c)] {{ p4_sol_c }}
+\item[d)] Se esperaría una frecuencia relativa cercana a $\dfrac{1}{6} \approx 0.17$: al aumentar el número de lanzamientos, la frecuencia relativa tiende a estabilizarse alrededor de la probabilidad teórica (ley de los grandes números).
+\end{enumerate}
+
+{% endif %}
+
+\label{fin_{{ estudiante_id }}}
+{% if not ultimo %}\newpage{% endif %}             %% salto entre estudiantes, no después del último
+{% if ultimo %}
+\end{document}
+{% endif %}
