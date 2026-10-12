@@ -27,7 +27,9 @@ Carpeta de trabajo para los participantes. Todos los nombres de `lista_estudiant
 
 ## Construir su propio generador
 
-Abra `generar_mi_practica.py` y edite las tres partes marcadas con `EDITAR`:
+No necesita saber programar: comparta con ChatGPT los dos archivos de la plantilla mínima, describa el ejercicio (tema, datos que cambian y sus rangos, preguntas y forma de la solución) y pídale los archivos completos. Si aparece un error, péguelo en la conversación y pida la corrección. Nunca comparta la lista de estudiantes. La sección 5.2 de la guía trae un ejemplo de instrucción.
+
+Para revisar lo que entregue ChatGPT, conviene conocer las partes de `generar_mi_practica.py`, marcadas con `EDITAR`:
 
 1. **`CONTEXTOS`**: situaciones cerradas con sus rangos de valores.
 2. **`datos_estudiante`**: genera los datos y calcula la solución. Las claves del diccionario son las variables que usa la plantilla (`{{ total }}`, `{{ porcentaje }}`…). Pase por `ge.esc()` todo texto que vaya a LaTeX.

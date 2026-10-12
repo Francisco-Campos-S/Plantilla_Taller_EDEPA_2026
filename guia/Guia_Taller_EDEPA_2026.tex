@@ -157,6 +157,10 @@ Las probabilidades se calculan con fracciones exactas (\cod{Fraction}) y se mues
 
 \section{Construir su propio generador}
 
+No necesita saber programar. La plantilla mínima (\cod{generar\_mi\_practica.py} y \cod{template\_mi\_practica.tex}) ya resuelve la lectura de la lista, la hoja de respuestas y la compilación; usted decide el ejercicio y ChatGPT produce el código (sección~\ref{sec:chatgpt}). Conviene, de todos modos, conocer las partes de la plantilla para revisar lo que ChatGPT entregue.
+
+\subsection{Las partes de la plantilla}
+
 Abra \cod{generar\_mi\_practica.py}. Tiene tres partes marcadas con \cod{EDITAR}:
 
 \textbf{1. Contextos.} Situaciones cerradas con sus rangos de valores:
@@ -195,6 +199,41 @@ Ejecute \cod{python generar\_mi\_practica.py}; los PDF aparecen en \cod{practica
 \textbf{Consejos.} Cambie una sola cosa a la vez y vuelva a ejecutar. Revise al menos tres estudiantes comparando la práctica con la solución. Conserve la semilla de la ejecución que entregue.
 \end{nota}
 
+\subsection{Con ChatGPT, paso a paso}\label{sec:chatgpt}
+
+\begin{enumerate}[leftmargin=*]
+\item \textbf{Guarde una copia} de \cod{generar\_mi\_practica.py} y \cod{template\_mi\_practica.tex} antes de cambiarlos.
+\item \textbf{Abra ChatGPT y comparta los dos archivos}: adjúntelos o pegue su contenido en la conversación.
+\item \textbf{Describa el ejercicio} con el tema, los datos que cambian y sus rangos, las preguntas y cómo debe verse la solución. Puede copiar y adaptar este ejemplo:
+\begin{lstlisting}
+Te comparto dos archivos de un generador de prácticas: generar_mi_practica.py
+(Python) y template_mi_practica.tex (LaTeX con Jinja2). Adáptalos a este ejercicio:
+- Tema: probabilidad con una ruleta dividida en sectores de colores.
+- Datos que cambian para cada estudiante: cantidad de sectores rojos, azules y
+  verdes (entre 2 y 8 de cada color).
+- Preguntas: a) probabilidad de obtener rojo; b) probabilidad de no obtener azul.
+- Solución: procedimiento completo, fracción simplificada y decimal con dos cifras.
+Conserva la estructura: las tres partes EDITAR, ge.esc() para los textos, la hoja
+de respuestas CLAVE y los bloques {% if modo == 'practicas' %} y {% else %} de la
+plantilla. Devuélveme los dos archivos completos.
+\end{lstlisting}
+\item \textbf{Reemplace los archivos} por los que entregó ChatGPT y ejecute el generador con la lista ficticia:
+\begin{lstlisting}
+python generar_mi_practica.py
+\end{lstlisting}
+\item \textbf{Si aparece un error}, cópielo en la misma conversación y pida la corrección:
+\begin{lstlisting}
+Al ejecutar aparece este error: [pegue aquí el mensaje]. Corrígelo y devuélveme
+el archivo completo.
+\end{lstlisting}
+Si la ventana no muestra un error pero el PDF no aparece, abra el archivo \cod{.log} de \cod{practicas\_mi\_practica/} y pegue la primera línea que empieza con \cod{!}.
+\item \textbf{Revise el resultado}: resuelva a mano la práctica de tres estudiantes, compárela con su solución y aplique la lista de cotejo (sección~\ref{sec:cotejo}). Si algo no le convence (un rango, una consigna, el redondeo), pídale a ChatGPT ese cambio concreto.
+\end{enumerate}
+
+\begin{nota}
+\textbf{Privacidad y responsabilidad.} Comparta con ChatGPT solo los archivos de la plantilla y la descripción del ejercicio, nunca la lista de estudiantes ni nombres reales: el generador lee la lista en su computadora. Usted revisa los cálculos, declara el uso de la herramienta y responde por el material.
+\end{nota}
+
 \section{Problemas frecuentes}\label{sec:problemas}
 
 \begin{tabularx}{\linewidth}{@{}>{\raggedright\arraybackslash}p{5.2cm}X@{}}
@@ -208,7 +247,7 @@ La ventana dice \cod{Error: Sin columna 'Nombre'} & La lista debe tener una celd
 Un nombre con símbolos rompe el PDF & Compruebe que el texto pasa por \cod{ge.esc()} en \cod{datos\_estudiante}. \\ \bottomrule
 \end{tabularx}
 
-\section{Lista de cotejo para revisar un ajuste}
+\section{Lista de cotejo para revisar un ajuste}\label{sec:cotejo}
 
 \begin{center}
 \begin{tcolorbox}[colback=white, colframe=azul, boxrule=0.6pt, arc=2pt, width=0.86\linewidth, left=8pt, right=8pt]

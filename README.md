@@ -20,6 +20,10 @@ python generar_estadistica.py           # elija lista_estudiantes_ficticia.xlsx
 python generar_probabilidad.py
 ```
 
+## Su propio generador, sin saber programar
+
+Con la plantilla mínima (`generar_mi_practica.py` + `template_mi_practica.tex`) y **ChatGPT para producir el código**, puede crear un generador para otros temas del taller o para futuros temas de su curso. Describa el ejercicio, comparta los dos archivos de la plantilla (nunca la lista de estudiantes) y revise el resultado con la lista de cotejo. La sección 5.2 de la guía trae el paso a paso y un ejemplo de instrucción.
+
 ## Contenido
 
 | Archivo | Para qué sirve |
